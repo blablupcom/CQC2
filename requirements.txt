@@ -11,4 +11,4 @@ lxml==3.4.4
 cssselect==0.9.1
 pyopenssl
 ndg-httpsclient pyasn1
-scraperwiki
+scraperwiki==0.5.1
