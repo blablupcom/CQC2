@@ -7,13 +7,14 @@ import urllib2
 from datetime import datetime
 import csv
 from lxml import etree
+import requests
 
 def connect(url):
-    # print url
+    #print url
     report_tree = ''
     try:
-        report_html = urllib2.urlopen(url).read()
-        report_tree = etree.HTML(report_html)
+        report_html = requests.get(url)
+        report_tree = etree.HTML(report_html.text)
     except:
         print url
         connect(url)
@@ -229,7 +230,7 @@ for row in csv_file:
             summary_well_led = ' '.join(overview_summary_soup.xpath('//div[@id="wellled"]//text()'))
         except:
             summary_well_led = ''
-    scraperwiki.sqlite.save(unique_keys=['location_url'], data={"location_url": unicode(location_url), "name": unicode(name), "add1": unicode(add1), "add2": unicode(add2), "add3": unicode(add3), "add4": unicode(add4), "postal_code": unicode(postal_code), "telephone": unicode(telephone),
+    scraperwiki.sqlite.save(unique_keys=['location_url'], data={"location_url": location_url, "name": unicode(name), "add1": unicode(add1), "add2": unicode(add2), "add3": unicode(add3), "add4": unicode(add4), "postal_code": unicode(postal_code), "telephone": unicode(telephone),
                                                      "CQC_ID": cqc_id, "type_of_service": unicode(type_of_service), "services": unicode(services), "local_authority": unicode(local_authority), "latest_report": unicode(latest_report), "reports_url": unicode(reports_url),
                                                      "report_date": unicode(report_date), "overview": unicode(overview), "overview_description": unicode(overview_description), "overview_safe": unicode(overview_safe), "overview_effective": unicode(overview_effective),
                                                      "overview_caring": unicode(overview_caring), "overview_responsive": unicode(overview_responsive), "overview_well_led": unicode(overview_well_led), "run_by": unicode(run_by), "run_by_url": unicode(run_by_url),
